@@ -1,8 +1,8 @@
 package domain
 
 import (
-	"fmt"
 	"errors"
+	"fmt"
 	"math"
 )
 
@@ -17,19 +17,28 @@ func NewWallet(uuidProvider UuidProvider) *Wallet {
 }
 
 func (wallet *Wallet) Deposit(amount int64) error {
-	if math.MaxInt64 - wallet.Balance < amount {
-	    return errors.New(fmt.Sprint("balance cannot be greater than ", math.MaxInt64))
+	if amount < 1 {
+		return errors.New("amount cannot be less than 1")
 	}
-	
+
+	if math.MaxInt64-wallet.Balance < amount {
+		return errors.New(fmt.Sprint("balance cannot be greater than ", math.MaxInt64))
+	}
+
 	wallet.Balance += amount
 
 	return nil
 }
 
-func (wallet *Wallet) Withdraw(amount int64) {
-	if amount > wallet.Balance
-	    return errors.New("balance cannot be less than 0")
-	
+func (wallet *Wallet) Withdraw(amount int64) error {
+	if amount < 1 {
+		return errors.New("amount cannot be less than 1")
+	}
+
+	if amount > wallet.Balance {
+		return errors.New("balance cannot be less than 0")
+	}
+
 	wallet.Balance -= amount
 
 	return nil

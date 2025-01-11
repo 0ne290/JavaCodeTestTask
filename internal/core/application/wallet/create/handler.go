@@ -1,4 +1,4 @@
-package application
+package createWallet
 
 import (
 	"context"
@@ -6,12 +6,12 @@ import (
 	"github.com/0ne290/JavaCodeTestTask/internal/core/domain"
 )
 
-func CreateWallet(ctx context.Context, uuidProvider domain.UuidProvider, unitOfWork domain.UnitOfWork) string {
+func Handle(ctx context.Context, uuidProvider domain.UuidProvider, unitOfWork domain.UnitOfWork) string {
+	defer unitOfWork.Save(ctx)
+
 	wallet := domain.NewWallet(uuidProvider)
 
 	unitOfWork.Repository().AddWallet(ctx, wallet)
-
-	unitOfWork.Save(ctx)
 
 	return uuidProvider.ToString(wallet.Uuid)
 }

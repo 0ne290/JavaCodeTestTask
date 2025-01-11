@@ -4,7 +4,7 @@ import "context"
 
 type Repository interface {
 	AddWallet(ctx context.Context, wallet *Wallet)
-	TryGetWalletByUuid(ctx context.Context, uuid []byte) (*Wallet, error)
+	GetWalletByUuid(ctx context.Context, uuid []byte) (*Wallet, error)
 }
 
 type UnitOfWork interface {
@@ -16,5 +16,5 @@ type UnitOfWork interface {
 type UuidProvider interface {
 	Random() []byte
 	ToString(uuid []byte) string
-	FromString(uuid string) []byte
+	FromString(uuid string) ([]byte, error)
 }

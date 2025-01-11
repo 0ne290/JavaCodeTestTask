@@ -16,16 +16,20 @@ func (*UuidProvider) ToString(bytes []byte) string {
 	uuid, err := uuidGoogle.FromBytes(bytes)
 
 	if err != nil {
-		panic("bytes is invalid")
+		panic(err.Error())
 	}
 
 	return uuid.String()
 }
 
-func (*UuidProvider) FromString(text string) []byte {
-	uuid := uuidGoogle.MustParse(text)
+func (*UuidProvider) FromString(text string) ([]byte, error) {
+	uuid, err := uuidGoogle.Parse(text)
+
+	if err != nil {
+		return nil, err
+	}
 
 	bytes := [16]byte(uuid)
 
-	return bytes[:]
+	return bytes[:], nil
 }

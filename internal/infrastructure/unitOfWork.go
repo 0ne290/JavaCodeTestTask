@@ -15,7 +15,7 @@ func NewUnitOfWork(ctx context.Context, pool *pgxpool.Pool) *UnitOfWork {
 	transaction, err := pool.Begin(ctx)
 
 	if err != nil {
-		panic("pool.Begin() error. Detail: " + err.Error())
+		panic(err.Error())
 	}
 
 	return &UnitOfWork{newRepository(transaction)}
@@ -27,12 +27,12 @@ func (unitOfWork *UnitOfWork) Repository() domain.Repository {
 
 func (unitOfWork *UnitOfWork) Save(ctx context.Context) {
 	if err := unitOfWork.repository.transaction.Commit(ctx); err != nil {
-		panic("transaction.Commit() error. Detail: " + err.Error())
+		panic(err.Error())
 	}
 }
 
 func (unitOfWork *UnitOfWork) Rollback(ctx context.Context) {
 	if err := unitOfWork.repository.transaction.Rollback(ctx); err != nil {
-		panic("transaction.Rollback() error. Detail: " + err.Error())
+		panic(err.Error())
 	}
 }
