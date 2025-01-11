@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/0ne290/JavaCodeTestTask/internal/core/domain"
 	"github.com/0ne290/JavaCodeTestTask/internal/infrastructure"
@@ -32,6 +33,15 @@ func main() {
 	r := chi.NewRouter()
 
 	r.Mount("/api", Versions())
+
+	srv := &http.Server{
+		Addr:    "localhost:80",
+		Handler: r,
+	}
+
+	if err := srv.ListenAndServe(); err != nil {
+		panic(err.Error())
+	}
 }
 
 func Versions() chi.Router {
