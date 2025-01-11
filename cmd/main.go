@@ -59,5 +59,9 @@ func V1() chi.Router {
 		r.Post("/", walletHandlers.Create(uuidProviderFactory, unitOfWorkFactory))
 	})
 
+	r.Route("/wallet", func(r chi.Router) {
+		r.Post("/", walletHandlers.ExecuteOperation(uuidProviderFactory, unitOfWorkFactory))
+	})
+
 	return r
 }

@@ -1,8 +1,8 @@
 package response
 
 type Response struct {
-	Status string
-	Data   any
+	Status string `json:"status"`
+	Data   any    `json:"data"`
 }
 
 func Success(data any) *Response {

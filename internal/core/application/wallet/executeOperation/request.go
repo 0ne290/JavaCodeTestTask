@@ -1,7 +1,7 @@
 package executeOperation
 
 type Request struct {
-	WalletId      string
-	OperationType string
-	Amount        int64
+	WalletId      string `json:"walletId"`
+	OperationType string `json:"operationType"`
+	Amount        int64  `json:"amount"`
 }
