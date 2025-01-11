@@ -36,6 +36,8 @@ func Handle(ctx context.Context, uuidProvider domain.UuidProvider, unitOfWork do
 			return 0, err
 		}
 
+		repository.UpdateWallet(ctx, wallet)
+
 		unitOfWork.Save(ctx)
 
 		return wallet.Balance, nil
@@ -48,6 +50,8 @@ func Handle(ctx context.Context, uuidProvider domain.UuidProvider, unitOfWork do
 
 			return 0, err
 		}
+
+		repository.UpdateWallet(ctx, wallet)
 
 		unitOfWork.Save(ctx)
 

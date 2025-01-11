@@ -37,3 +37,9 @@ func (repository *Repository) GetWalletByUuid(ctx context.Context, uuid []byte) 
 
 	return wallet, nil
 }
+
+func (repository *Repository) UpdateWallet(ctx context.Context, wallet *domain.Wallet) {
+	if _, err := repository.transaction.Exec(ctx, "UPDATE wallets SET balance = $1 WHERE uuid = $2", wallet.Balance, wallet.Uuid); err != nil {
+		panic(err.Error())
+	}
+}

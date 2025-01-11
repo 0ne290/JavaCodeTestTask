@@ -5,6 +5,7 @@ import "context"
 type Repository interface {
 	AddWallet(ctx context.Context, wallet *Wallet)
 	GetWalletByUuid(ctx context.Context, uuid []byte) (*Wallet, error)
+	UpdateWallet(ctx context.Context, wallet *Wallet)
 }
 
 type UnitOfWork interface {
