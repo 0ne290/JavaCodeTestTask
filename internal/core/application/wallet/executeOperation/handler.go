@@ -7,7 +7,7 @@ import (
 	"github.com/0ne290/JavaCodeTestTask/internal/core/domain"
 )
 
-func Handle(ctx context.Context, uuidProvider domain.UuidProvider, unitOfWork domain.UnitOfWork, request Request) (int64, error) {
+func Handle(ctx context.Context, uuidProvider domain.UuidProvider, unitOfWork domain.UnitOfWork, request *Request) (int64, error) {
 	walletUuid, err := uuidProvider.FromString(request.WalletId)
 
 	if err != nil {
