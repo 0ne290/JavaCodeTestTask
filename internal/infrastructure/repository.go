@@ -25,7 +25,7 @@ func (repository *Repository) AddWallet(ctx context.Context, wallet *domain.Wall
 func (repository *Repository) GetWalletByUuid(ctx context.Context, uuid []byte) (*domain.Wallet, error) {
 	wallet := &domain.Wallet{}
 
-	err := repository.transaction.QueryRow(ctx, "SELECT * FROM wallets WHERE uuid = $1", uuid).Scan(&wallet.Uuid, &wallet.Balance)
+	err := repository.transaction.QueryRow(ctx, "SELECT * FROM wallets WHERE uuid = $1 FOR UPDATE", uuid).Scan(&wallet.Uuid, &wallet.Balance)
 
 	if err != nil {
 		if err == pgx.ErrNoRows {
