@@ -35,7 +35,7 @@ func main() {
 	r.Mount("/api", Versions())
 
 	srv := &http.Server{
-		Addr:    "localhost:80",
+		Addr:    "192.168.0.101:80",
 		Handler: r,
 	}
 
@@ -56,7 +56,7 @@ func V1() chi.Router {
 	r := chi.NewRouter()
 
 	r.Route("/wallets", func(r chi.Router) {
-		r.Post("/", walletHandlers.Create(uuidProviderFactory(), unitOfWorkFactory()))
+		r.Post("/", walletHandlers.Create(uuidProviderFactory, unitOfWorkFactory))
 	})
 
 	return r

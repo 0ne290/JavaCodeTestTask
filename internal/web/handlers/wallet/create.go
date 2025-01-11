@@ -9,9 +9,9 @@ import (
 	response "github.com/0ne290/JavaCodeTestTask/internal/web"
 )
 
-func Create(uuidProvider domain.UuidProvider, unitOfWork domain.UnitOfWork) http.HandlerFunc {
+func Create(uuidProviderFactory func() domain.UuidProvider, unitOfWorkFactory func() domain.UnitOfWork) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		walletUuid := createWallet.Handle(r.Context(), uuidProvider, unitOfWork)
+		walletUuid := createWallet.Handle(r.Context(), uuidProviderFactory(), unitOfWorkFactory())
 
 		json.NewEncoder(w).Encode(response.Success(struct {
 			WalletId string `json:"walletId"`
