@@ -1,0 +1,40 @@
+services:
+  web:
+    images: java_code_test_task
+    build:
+      context: ./
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_CONNECTION_STRING: user=${DB_USER} password=${DB_PASSWORD} host=db port=5432 dbname=${DB_DATABASE}
+      ports:
+        - "80:80"
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      db-data:/var/lib/postgresql/data
+      ./internal/infrastructure/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+  swagger:
+    image: swaggerapi/swagger-ui:latest
+    ports:
+      - "80:80"
+    environment:
+      SWAGGER_YAML: ./api/open-api-3.0.0.yaml
+      PORT: 80
+      BASE_URL: /swagger
+    volumes:
+      open-api: ./api
+    
+volumes:
+  db-data:
+  open-api:

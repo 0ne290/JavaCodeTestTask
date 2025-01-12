@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"net/http"
+	"os"
 
 	"github.com/0ne290/JavaCodeTestTask/internal/core/domain"
 	"github.com/0ne290/JavaCodeTestTask/internal/infrastructure"
@@ -20,7 +21,7 @@ var (
 )
 
 func main() {
-	pool, err := pgxpool.New(context.Background(), "user=root password=dcba host=localhost port=5432 dbname=java_code_test_task")
+	pool, err := pgxpool.New(context.Background(), os.Getenv("DB_CONNECTION_STRING"))
 
 	if err != nil {
 		panic(err.Error())
@@ -35,7 +36,7 @@ func main() {
 	r.Mount("/api", Versions())
 
 	srv := &http.Server{
-		Addr:    "192.168.0.101:80",
+		Addr:    ":80",
 		Handler: r,
 	}
 

@@ -12,6 +12,8 @@ import (
 
 func GetBalance(uuidProviderFactory func() domain.UuidProvider, unitOfWorkFactory func() domain.UnitOfWork) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
 		request := &getWalletBalance.Request{WalletId: chi.URLParam(r, "walletId")}
 
 		walletBalance, err := getWalletBalance.Handle(r.Context(), uuidProviderFactory(), unitOfWorkFactory(), request)
@@ -25,6 +27,8 @@ func GetBalance(uuidProviderFactory func() domain.UuidProvider, unitOfWorkFactor
 
 			return
 		}
+
+		w.WriteHeader(http.StatusOK)
 
 		json.NewEncoder(w).Encode(response.Success(struct {
 			WalletBalance int64 `json:"walletBalance"`

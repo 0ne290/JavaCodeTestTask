@@ -11,6 +11,10 @@ import (
 
 func Create(uuidProviderFactory func() domain.UuidProvider, unitOfWorkFactory func() domain.UnitOfWork) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		w.WriteHeader(http.StatusOK)
+
 		walletUuid := createWallet.Handle(r.Context(), uuidProviderFactory(), unitOfWorkFactory())
 
 		json.NewEncoder(w).Encode(response.Success(struct {

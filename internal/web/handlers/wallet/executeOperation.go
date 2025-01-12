@@ -11,6 +11,8 @@ import (
 
 func ExecuteOperation(uuidProviderFactory func() domain.UuidProvider, unitOfWorkFactory func() domain.UnitOfWork) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
 		request := &executeWalletOperation.Request{}
 
 		err := json.NewDecoder(r.Body).Decode(request)
@@ -36,6 +38,8 @@ func ExecuteOperation(uuidProviderFactory func() domain.UuidProvider, unitOfWork
 
 			return
 		}
+
+		w.WriteHeader(http.StatusOK)
 
 		json.NewEncoder(w).Encode(response.Success(struct {
 			WalletBalance int64 `json:"walletBalance"`
