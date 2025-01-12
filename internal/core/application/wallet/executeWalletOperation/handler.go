@@ -1,4 +1,4 @@
-package executeOperation
+package executeWalletOperation
 
 import (
 	"context"

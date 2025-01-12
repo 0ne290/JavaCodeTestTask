@@ -61,6 +61,7 @@ func V1() chi.Router {
 
 	r.Route("/wallet", func(r chi.Router) {
 		r.Post("/", walletHandlers.ExecuteOperation(uuidProviderFactory, unitOfWorkFactory))
+		r.Get("/{walletId}", walletHandlers.GetBalance(uuidProviderFactory, unitOfWorkFactory))
 	})
 
 	return r

@@ -4,14 +4,14 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/0ne290/JavaCodeTestTask/internal/core/application/wallet/executeOperation"
+	"github.com/0ne290/JavaCodeTestTask/internal/core/application/wallet/executeWalletOperation"
 	"github.com/0ne290/JavaCodeTestTask/internal/core/domain"
 	response "github.com/0ne290/JavaCodeTestTask/internal/web"
 )
 
 func ExecuteOperation(uuidProviderFactory func() domain.UuidProvider, unitOfWorkFactory func() domain.UnitOfWork) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		request := &executeOperation.Request{}
+		request := &executeWalletOperation.Request{}
 
 		err := json.NewDecoder(r.Body).Decode(request)
 
@@ -25,7 +25,7 @@ func ExecuteOperation(uuidProviderFactory func() domain.UuidProvider, unitOfWork
 			return
 		}
 
-		walletBalance, err := executeOperation.Handle(r.Context(), uuidProviderFactory(), unitOfWorkFactory(), request)
+		walletBalance, err := executeWalletOperation.Handle(r.Context(), uuidProviderFactory(), unitOfWorkFactory(), request)
 
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)

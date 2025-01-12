@@ -1,4 +1,4 @@
-package executeOperation
+package executeWalletOperation
 
 type Request struct {
 	WalletId      string `json:"walletId"`
