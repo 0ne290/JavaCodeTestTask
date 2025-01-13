@@ -9,6 +9,7 @@ COPY . .
 RUN go build ./cmd/main.go
 
 FROM scratch
-COPY --from=builder /app /server
+WORKDIR /bin
+COPY --from=builder /app/main /bin
 EXPOSE 80
-ENTRYPOINT ["/server"]
+ENTRYPOINT ["/bin/main"]

@@ -24,14 +24,12 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./internal/infrastructure/schema.sql:/docker-entrypoint-initdb.d/schema.sql
-    ports:
-      - "5432:5432"
   swagger:
     image: swaggerapi/swagger-ui:latest
     ports:
-      - "80:80"
+      - "8080:80"
     environment:
-      SWAGGER_JSON: /open-api-3.0.0.yaml
+      SWAGGER_JSON: /open-api-3.0.0.json
       PORT: 80
       BASE_URL: /api/v1/swagger
     volumes:
